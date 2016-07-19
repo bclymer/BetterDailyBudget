@@ -1,0 +1,45 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    ext.kotlin_version = '1.0.3'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0-alpha5'
+        // https://bintray.com/android/android-tools/com.google.gms.google-services/
+        //classpath 'com.google.gms:google-services:3.0.0'
+        //kotlin required plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext.build_ToolsVersion = "24.0.0"
+ext.compile_SdkVersion = 24
+ext.min_SdkVersion = 15
+ext.target_SdkVersion = 24
+ext.googleSupportVersion = "24.1.0"
+ext.googlePlayServicesVersion = "9.2.1"
+
+ext.libraries = [
+        rx_java: [
+                'io.reactivex:rxandroid:1.2.0',
+                'io.reactivex:rxjava:1.1.6',
+                'com.artemzin.rxjava:proguard-rules:1.1.6.0'
+        ]
+]
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+    }
+}
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
