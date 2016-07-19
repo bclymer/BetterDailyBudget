@@ -40,7 +40,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$googleSupportVersion"
     compile "com.android.support:design:$googleSupportVersion"
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
+    // Welcome / Onboarding wizard.
+    compile 'com.redbooth:WelcomeCoordinator:1.0.1'
 
     // Testing stuff.
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,5 +50,7 @@ dependencies {
     })
     wearApp project(':wear')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
+    compile 'com.redbooth:WelcomeCoordinator:1.0.1'
     testCompile 'junit:junit:4.12'
 }
