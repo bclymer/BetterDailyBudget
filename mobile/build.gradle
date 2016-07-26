@@ -4,11 +4,13 @@ buildscript {
     }
     dependencies {
         classpath "io.realm:realm-gradle-plugin:1.1.0"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
 
 android {
@@ -39,6 +41,11 @@ dependencies {
     //compile "com.google.android.gms:play-services:$googlePlayServicesVersion"
     compile "com.android.support:appcompat-v7:$googleSupportVersion"
     compile "com.android.support:design:$googleSupportVersion"
+
+    // RxJava + Extensions
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
 
     // Welcome / Onboarding wizard.
     compile 'com.redbooth:WelcomeCoordinator:1.0.1'

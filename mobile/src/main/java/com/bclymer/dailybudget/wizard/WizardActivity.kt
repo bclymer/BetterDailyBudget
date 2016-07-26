@@ -1,8 +1,9 @@
-package com.bclymer.dailybudget
+package com.bclymer.dailybudget.wizard
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.NumberPicker
+import com.bclymer.dailybudget.R
 import com.redbooth.WelcomeCoordinatorLayout
 
 class WizardActivity : AppCompatActivity() {
@@ -22,5 +23,7 @@ class WizardActivity : AppCompatActivity() {
         numberPicker.minValue = 1
         numberPicker.maxValue = 365
         numberPicker.wrapSelectorWheel = false
+
+        val budgetView = coordinator.findViewById(R.id.wizard_screen_three_budget_view)
     }
 }

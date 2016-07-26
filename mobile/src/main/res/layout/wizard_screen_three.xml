@@ -4,12 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Let's setup your non-discretionary expenses." />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!-- RecyclerView where you can add new items. Each is a Budget -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Let's setup your non-discretionary expenses." />
+
+        <include
+            android:id="@+id/wizard_screen_three_budget_view"
+            layout="@layout/wizard_view_budget" />
+
+    </LinearLayout>
 
 </com.redbooth.WelcomePageLayout>

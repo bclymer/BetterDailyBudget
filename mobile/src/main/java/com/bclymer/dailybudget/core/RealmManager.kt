@@ -1,4 +1,4 @@
-package com.bclymer.dailybudget
+package com.bclymer.dailybudget.core
 
 import android.content.Context
 import com.bclymer.dailybudget.models.*

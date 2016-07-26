@@ -6,7 +6,7 @@ buildscript {
     }
     ext.kotlin_version = '1.0.3'
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0-alpha5'
+        classpath 'com.android.tools.build:gradle:2.2.0-alpha6'
         // https://bintray.com/android/android-tools/com.google.gms.google-services/
         //classpath 'com.google.gms:google-services:3.0.0'
         //kotlin required plugin

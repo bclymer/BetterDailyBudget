@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">Daily Budget</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string-array name="pay_periods">
+        <item>Weekly</item>
+        <item>Every Other Week</item>
+        <item>Monthly</item>
+        <item>Twice Monthly</item>
+    </string-array>
+
+    <string-array name="pay_period_values">
+        <item>52</item>
+        <item>26</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+
 </resources>

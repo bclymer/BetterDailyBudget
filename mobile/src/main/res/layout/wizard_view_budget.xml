@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bclymer.dailybudget.wizard.BudgetView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <AutoCompleteTextView
+        android:id="@+id/edittext_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Category" />
+
+    <EditText
+        android:id="@+id/edittext_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Amount"
+        android:inputType="numberDecimal" />
+
+    <Spinner
+        android:id="@+id/spinner_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/pay_periods" />
+
+    <TextView
+        android:id="@+id/textview_dailyallocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Daily Allocation: $0" />
+
+</com.bclymer.dailybudget.wizard.BudgetView>

@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WizardActivity"></activity>
+        <activity android:name=".wizard.WizardActivity"></activity>
     </application>
 
 </manifest>
