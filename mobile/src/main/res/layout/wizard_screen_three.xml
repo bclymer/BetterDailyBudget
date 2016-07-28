@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.redbooth.WelcomePageLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/welcome_screen_three"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -15,10 +16,21 @@
             android:gravity="center"
             android:text="Let's setup your non-discretionary expenses." />
 
-        <include
-            android:id="@+id/wizard_screen_three_budget_view"
-            layout="@layout/wizard_view_budget" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewBudgets"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floatingButtonCreateBudget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/ic_menu_add"
+            app:layout_anchor="@id/recyclerviewBudgets"
+            app:layout_anchorGravity="bottom|right|end" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </com.redbooth.WelcomePageLayout>

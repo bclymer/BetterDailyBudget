@@ -1,4 +1,4 @@
-package com.bclymer.dailybudget.core
+package com.bclymer.dailybudget.core.database
 
 import android.content.Context
 import com.bclymer.dailybudget.models.*
@@ -47,8 +47,7 @@ object DatabaseManager {
                             "Vacation"
                     )
                     defaultCategories.forEachIndexed { index, name ->
-                        val category = realm.createObject(Category::class.java)
-                        category.id = index.toLong()
+                        val category = Category.create(realm)
                         category.name = name
                     }
                 }

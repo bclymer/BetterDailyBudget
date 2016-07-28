@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.bclymer.dailybudget.wizard.BudgetView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/budgetView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edittextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name" />
 
     <AutoCompleteTextView
         android:id="@+id/edittext_category"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Category" />
 
     <EditText
         android:id="@+id/edittext_amount"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Amount"
         android:inputType="numberDecimal" />
@@ -28,5 +35,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Daily Allocation: $0" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
 
 </com.bclymer.dailybudget.wizard.BudgetView>

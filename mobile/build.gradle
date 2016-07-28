@@ -41,6 +41,7 @@ dependencies {
     //compile "com.google.android.gms:play-services:$googlePlayServicesVersion"
     compile "com.android.support:appcompat-v7:$googleSupportVersion"
     compile "com.android.support:design:$googleSupportVersion"
+    compile "com.android.support:recyclerview-v7:$googleSupportVersion"
 
     // RxJava + Extensions
     compile 'io.reactivex:rxjava:1.1.8'

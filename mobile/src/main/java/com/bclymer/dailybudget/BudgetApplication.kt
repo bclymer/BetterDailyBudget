@@ -1,7 +1,7 @@
 package com.bclymer.dailybudget
 
 import android.app.Application
-import com.bclymer.dailybudget.core.DatabaseManager
+import com.bclymer.dailybudget.core.database.DatabaseManager
 
 /**
  * Created by Brian on 7/18/2016.
