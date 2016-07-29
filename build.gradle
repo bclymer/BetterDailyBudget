@@ -20,7 +20,7 @@ repositories {
 
 ext.build_ToolsVersion = "24.0.0"
 ext.compile_SdkVersion = 24
-ext.min_SdkVersion = 15
+ext.min_SdkVersion = 17
 ext.target_SdkVersion = 24
 ext.googleSupportVersion = "24.1.1"
 ext.googlePlayServicesVersion = "9.2.1"

@@ -30,6 +30,7 @@ object DatabaseManager {
                 .modules(RealmManager())
                 .initialData { realm ->
                     val defaultCategories = listOf(
+                            "Allowance",
                             "Automobile",
                             "Amusement",
                             "Movies",

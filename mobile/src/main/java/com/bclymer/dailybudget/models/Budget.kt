@@ -14,10 +14,13 @@ open class Budget : RealmObject() {
     @PrimaryKey
     open var id: Long = 0
     open var name: String = ""
-    open var amount: Double = 0.toDouble()
+    open var allocation: Double = 0.toDouble()
     open var intervalInDays: Int = 0
     open var cachedValue: Double = 0.toDouble()
     open var transactions: RealmList<Transaction>? = null
+
+    val dailyAllocation: Double
+        get() = allocation / intervalInDays
 
     companion object {
         fun create(realm: Realm): Budget {

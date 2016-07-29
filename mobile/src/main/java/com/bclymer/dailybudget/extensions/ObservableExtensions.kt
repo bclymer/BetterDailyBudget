@@ -33,6 +33,7 @@ fun <T> Observable<T>.safeSubscribe(onNext: ((T) -> Unit)? = null, onError: ((Th
         if (onError != null) {
             onError(error)
         }
+        error.printStackTrace()
     }, {
         if (onCompleted != null) {
             onCompleted()

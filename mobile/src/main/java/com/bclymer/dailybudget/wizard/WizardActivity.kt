@@ -8,15 +8,12 @@ import android.view.ViewGroup
 import com.bclymer.dailybudget.R
 import com.bclymer.dailybudget.core.database.BudgetRepository
 import com.bclymer.dailybudget.core.database.UserRepository
-import com.bclymer.dailybudget.extensions.inflate
-import com.bclymer.dailybudget.extensions.observeOnMainThread
-import com.bclymer.dailybudget.extensions.toDoubleOrZero
-import com.bclymer.dailybudget.extensions.valueChanges
+import com.bclymer.dailybudget.extensions.*
 import com.bclymer.dailybudget.models.Budget
 import com.bclymer.dailybudget.models.User
 import com.jakewharton.rxbinding.view.clicks
 import com.jakewharton.rxbinding.widget.textChanges
-import com.redbooth.WelcomeCoordinatorLayout
+import kotlinx.android.synthetic.main.activity_wizard.*
 import kotlinx.android.synthetic.main.wizard_screen_three.*
 import kotlinx.android.synthetic.main.wizard_screen_two.*
 import kotlinx.android.synthetic.main.wizard_view_budget.view.*
@@ -31,12 +28,15 @@ class WizardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wizard)
 
-        val coordinator = findViewById(R.id.activity_wizard) as WelcomeCoordinatorLayout
-        coordinator.addPage(
+        welcomeCoordinator.addPage(
                 R.layout.wizard_screen_one,
                 R.layout.wizard_screen_two,
                 R.layout.wizard_screen_three
         )
+
+        floatingButtonPageThreeNext.setOnClickListener {
+            finish()
+        }
 
         numberpickerIncomeInterval.minValue = 1
         numberpickerIncomeInterval.maxValue = 365
@@ -49,10 +49,10 @@ class WizardActivity : AppCompatActivity() {
     private fun setupSectionTwo() {
         UserRepository.getUserOrCreate()
                 .observeOnMainThread()
-                .subscribe {
+                .safeSubscribe(onNext = {
                     setupListeners()
                     setDefaults(it)
-                }
+                })
     }
 
     private fun setDefaults(user: User) {
@@ -63,34 +63,32 @@ class WizardActivity : AppCompatActivity() {
     private fun setupListeners() {
         Observable
                 .combineLatest(edittextIncome.textChanges(), numberpickerIncomeInterval.valueChanges(), { incomeStr, days ->
-                    val income = incomeStr.toString().toDoubleOrZero()
-                    UserRepository.updateIncome(income, days).subscribe()
-                    income / days
+                    incomeStr.toString().toDoubleOrZero() to days
                 })
+                .delay { UserRepository.updateIncome(it.first, it.second) }
+                .map { it.first / it.second }
                 .map { NumberFormat.getCurrencyInstance().format(it) }
                 .map { "Daily Income: $it" }
                 .observeOnMainThread()
-                .subscribe { textviewDailyIncome.text = it }
+                .safeSubscribe(onNext = { textviewDailyIncome.text = it })
     }
 
     private fun setupScreenThree() {
         recyclerviewBudgets.layoutManager = LinearLayoutManager(this)
         recyclerviewBudgets.adapter = BudgetsAdapter()
 
-        BudgetRepository.getAll()
+        BudgetRepository.monitorAll()
                 .observeOnMainThread()
-                .subscribe {
+                .safeSubscribe(onNext = {
+                    // TODO compare IDs or something. Maybe one swapped.
+                    if (it.size == budgets.size) return@safeSubscribe
                     budgets = it.toMutableList()
                     recyclerviewBudgets.adapter.notifyDataSetChanged()
-                }
+                })
 
         floatingButtonCreateBudget.clicks()
                 .flatMap { BudgetRepository.create() }
-                .doOnNext { budgets.add(it) }
-                .observeOnMainThread()
-                .subscribe {
-                    recyclerviewBudgets.adapter.notifyDataSetChanged()
-                }
+                .safeSubscribe()
     }
 
     private inner class BudgetsAdapter : RecyclerView.Adapter<BudgetViewHolder>() {
@@ -99,19 +97,15 @@ class WizardActivity : AppCompatActivity() {
         override fun getItemCount() = budgets.size
 
         override fun onBindViewHolder(holder: BudgetViewHolder?, position: Int) {
-            holder?.bind(budgets[position], position)
+            holder?.bind(budgets[position])
         }
     }
 
     private inner class BudgetViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(parent) {
-        fun bind(budget: Budget, position: Int) {
+        fun bind(budget: Budget) {
             itemView.budgetView.setBudget(budget)
             itemView.buttonDelete.setOnClickListener {
-                val budget = budgets[position]
-                BudgetRepository.delete(budget.id).subscribe {
-                    budgets.removeAt(position)
-                    recyclerviewBudgets.adapter.notifyDataSetChanged()
-                }
+                BudgetRepository.delete(budget.id).safeSubscribe()
             }
         }
     }
