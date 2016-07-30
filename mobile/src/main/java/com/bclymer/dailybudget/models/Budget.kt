@@ -5,22 +5,22 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.util.*
 
 /**
- * Created by Brian on 7/18/2016.
+ * Created by brianclymer on 7/29/16.
+ * Copyright Travefy, Inc.
  */
+
 open class Budget : RealmObject() {
 
     @PrimaryKey
     open var id: Long = 0
     open var name: String = ""
-    open var allocation: Double = 0.toDouble()
-    open var intervalInDays: Int = 0
-    open var cachedValue: Double = 0.toDouble()
-    open var transactions: RealmList<Transaction>? = null
-
-    val dailyAllocation: Double
-        get() = allocation / intervalInDays
+    open var dailyAllocation: Double = 0.0
+    open var lastDateApplied: Date = Date()
+    open var transactions: RealmList<Transaction> = RealmList()
+    open var defaultBudget: Boolean = false
 
     companion object {
         fun create(realm: Realm): Budget {

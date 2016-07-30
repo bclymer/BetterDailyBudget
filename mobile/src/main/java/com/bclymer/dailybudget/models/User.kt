@@ -8,8 +8,9 @@ import io.realm.RealmObject
  */
 open class User : RealmObject() {
 
-    open var income: Double = 0.toDouble()
+    open var income: Double = 0.0
     open var payInterval: Int = 0
-    open var budgets: RealmList<Budget>? = null
+    open var staticExpenses: RealmList<StaticExpense> = RealmList()
+    open var budgets: RealmList<Budget> = RealmList()
 
 }

@@ -6,23 +6,23 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.bclymer.dailybudget.R
-import com.bclymer.dailybudget.core.database.BudgetRepository
+import com.bclymer.dailybudget.core.database.StaticExpenseRepository
 import com.bclymer.dailybudget.core.database.UserRepository
 import com.bclymer.dailybudget.extensions.*
-import com.bclymer.dailybudget.models.Budget
+import com.bclymer.dailybudget.models.StaticExpense
 import com.bclymer.dailybudget.models.User
 import com.jakewharton.rxbinding.view.clicks
 import com.jakewharton.rxbinding.widget.textChanges
 import kotlinx.android.synthetic.main.activity_wizard.*
 import kotlinx.android.synthetic.main.wizard_screen_three.*
 import kotlinx.android.synthetic.main.wizard_screen_two.*
-import kotlinx.android.synthetic.main.wizard_view_budget.view.*
+import kotlinx.android.synthetic.main.static_expense_listitem.view.*
 import rx.Observable
 import java.text.NumberFormat
 
 class WizardActivity : AppCompatActivity() {
 
-    private var budgets: MutableList<Budget> = mutableListOf()
+    private var staticExpenses: MutableList<StaticExpense> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,8 @@ class WizardActivity : AppCompatActivity() {
     }
 
     private fun setupSectionTwo() {
-        UserRepository.getUserOrCreate()
+        UserRepository.monitorUser()
+                .take(1)
                 .observeOnMainThread()
                 .safeSubscribe(onNext = {
                     setupListeners()
@@ -75,37 +76,37 @@ class WizardActivity : AppCompatActivity() {
 
     private fun setupScreenThree() {
         recyclerviewBudgets.layoutManager = LinearLayoutManager(this)
-        recyclerviewBudgets.adapter = BudgetsAdapter()
+        recyclerviewBudgets.adapter = StaticExpenseAdapter()
 
-        BudgetRepository.monitorAll()
+        StaticExpenseRepository.monitorAll()
                 .observeOnMainThread()
                 .safeSubscribe(onNext = {
                     // TODO compare IDs or something. Maybe one swapped.
-                    if (it.size == budgets.size) return@safeSubscribe
-                    budgets = it.toMutableList()
+                    if (it.size == staticExpenses.size) return@safeSubscribe
+                    staticExpenses = it.toMutableList()
                     recyclerviewBudgets.adapter.notifyDataSetChanged()
                 })
 
         floatingButtonCreateBudget.clicks()
-                .flatMap { BudgetRepository.create() }
+                .flatMap { StaticExpenseRepository.create() }
                 .safeSubscribe()
     }
 
-    private inner class BudgetsAdapter : RecyclerView.Adapter<BudgetViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = BudgetViewHolder(parent?.inflate(R.layout.wizard_view_budget) as ViewGroup)
+    private inner class StaticExpenseAdapter : RecyclerView.Adapter<StaticExpenseHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = StaticExpenseHolder(parent?.inflate(R.layout.static_expense_listitem) as ViewGroup)
 
-        override fun getItemCount() = budgets.size
+        override fun getItemCount() = staticExpenses.size
 
-        override fun onBindViewHolder(holder: BudgetViewHolder?, position: Int) {
-            holder?.bind(budgets[position])
+        override fun onBindViewHolder(holder: StaticExpenseHolder?, position: Int) {
+            holder?.bind(staticExpenses[position])
         }
     }
 
-    private inner class BudgetViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(parent) {
-        fun bind(budget: Budget) {
-            itemView.budgetView.setBudget(budget)
+    private inner class StaticExpenseHolder(parent: ViewGroup) : RecyclerView.ViewHolder(parent) {
+        fun bind(staticExpense: StaticExpense) {
+            itemView.staticExpenseView.setStaticExpense(staticExpense)
             itemView.buttonDelete.setOnClickListener {
-                BudgetRepository.delete(budget.id).safeSubscribe()
+                StaticExpenseRepository.delete(staticExpense.id).safeSubscribe()
             }
         }
     }

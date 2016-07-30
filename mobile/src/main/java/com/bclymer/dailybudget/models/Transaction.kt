@@ -16,8 +16,8 @@ open class Transaction : RealmObject() {
     open var id: Long = 0
     open var notes: String = ""
     open var date: Date = Date()
-    open var amounts: RealmList<RealmDoubleArray>? = null
-    open var category: Category? = null
+    open var amount: Double = 0.0
+    open var tags: RealmList<Tag> = RealmList()
     open var systemAllowance: Boolean = false
 
     companion object {

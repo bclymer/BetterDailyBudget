@@ -11,7 +11,7 @@ import rx.Observable
 // TODO: dagger 2
 internal object UserRepository : BaseRepository<User>(User::class) {
 
-    fun getUserOrCreate(): Observable<User> {
+    fun monitorUser(): Observable<User> {
         val user = where { findFirst() }
         if (user != null) {
             return user.asObservable()
@@ -29,5 +29,11 @@ internal object UserRepository : BaseRepository<User>(User::class) {
             user.payInterval = payInterval
         }
     }
+
+    fun totalStaticExpenses(): Observable<Double> =
+            monitorUser().take(1).map { it.staticExpenses.sum("dailyAllocation")?.toDouble() ?: 0.0 }
+
+    fun totalBudgetAllocations(): Observable<Double> =
+            monitorUser().take(1).map { it.budgets.sum("dailyAllocation")?.toDouble() ?: 0.0 }
 
 }

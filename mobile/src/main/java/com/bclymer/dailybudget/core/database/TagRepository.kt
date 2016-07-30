@@ -1,6 +1,6 @@
 package com.bclymer.dailybudget.core.database
 
-import com.bclymer.dailybudget.models.Category
+import com.bclymer.dailybudget.models.Tag
 import rx.Observable
 
 /**
@@ -8,9 +8,9 @@ import rx.Observable
  * Copyright Travefy, Inc.
  */
 
-internal object CategoryRepository : BaseRepository<Category>(Category::class) {
+internal object TagRepository : BaseRepository<Tag>(Tag::class) {
 
-    fun monitorAll(): Observable<List<Category>> {
+    fun monitorAll(): Observable<List<Tag>> {
         return where { findAll() }
                 .asObservable()
                 .map { it.toList() }

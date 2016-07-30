@@ -24,7 +24,7 @@ fun <T> Observable<T>.observeOnMainThread(): Observable<T> {
     return observeOn(AndroidSchedulers.mainThread())
 }
 
-fun <T> Observable<T>.safeSubscribe(onNext: ((T) -> Unit)? = null, onError: ((Throwable) -> Unit)? = null, onCompleted: (() -> Unit)? = null, shouldReportError: (Throwable) -> Boolean = { true }): Subscription {
+fun <T> Observable<T>.safeSubscribe(onNext: ((T) -> Unit)? = null, onError: ((Throwable) -> Unit)? = null, onCompleted: (() -> Unit)? = null): Subscription {
     return this.subscribe({ next ->
         if (onNext != null) {
             onNext(next)

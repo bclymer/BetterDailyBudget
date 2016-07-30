@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     private inner class BudgetViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(parent) {
         fun bind(budget: Budget) {
             itemView.textviewName.text = budget.name
-            itemView.textviewAmount.text = NumberFormat.getCurrencyInstance().format(budget.cachedValue)
+            itemView.textviewAmount.text = NumberFormat.getCurrencyInstance().format(budget.dailyAllocation)
             itemView.buttonAddTransaction.setOnClickListener {
                 itemView.snack("Alrighty.")
             }

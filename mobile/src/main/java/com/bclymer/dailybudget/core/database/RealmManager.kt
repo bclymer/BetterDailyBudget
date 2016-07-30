@@ -13,8 +13,8 @@ import io.realm.annotations.RealmModule
  */
 @RealmModule(classes = arrayOf(
         Budget::class,
-        Category::class,
-        RealmDoubleArray::class,
+        Tag::class,
+        StaticExpense::class,
         Transaction::class,
         User::class
 ))
@@ -30,27 +30,34 @@ object DatabaseManager {
                 .modules(RealmManager())
                 .initialData { realm ->
                     val defaultCategories = listOf(
-                            "Allowance",
-                            "Automobile",
-                            "Amusement",
-                            "Movies",
-                            "Alcohol",
-                            "Coffee Shops",
-                            "Food",
-                            "Gift",
-                            "Health & Fitness",
-                            "Home Improvement",
-                            "Personal Care",
-                            "Pets",
-                            "Shopping",
-                            "Travel",
-                            "Taxes",
-                            "Vacation"
+                            "allowance",
+                            "automobile",
+                            "amusement",
+                            "alcohol",
+                            "coffee",
+                            "food",
+                            "gas",
+                            "gift",
+                            "groceries",
+                            "health",
+                            "home",
+                            "movies",
+                            "personal",
+                            "pets",
+                            "shopping",
+                            "travel",
+                            "taxes",
+                            "vacation"
                     )
                     defaultCategories.forEachIndexed { index, name ->
-                        val category = Category.create(realm)
-                        category.name = name
+                        val tag = Tag.create(realm)
+                        tag.name = name
                     }
+
+                    val user = realm.createObject(User::class.java)
+                    val defaultBudget = Budget.create(realm)
+                    defaultBudget.defaultBudget = true
+                    user.budgets.add(defaultBudget)
                 }
                 .build()
         Realm.setDefaultConfiguration(realmConfiguration)
@@ -65,11 +72,13 @@ private class Migration : RealmMigration {
             return // uhhh? what should I do here
         }
 
+        /*
         var currentVersion = oldVersion
         val schema = realm.schema
         if (currentVersion == 0L) {
 
         }
+        */
     }
 
 }

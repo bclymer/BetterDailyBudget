@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey
 /**
  * Created by Brian on 7/18/2016.
  */
-open class Category : RealmObject() {
+open class Tag : RealmObject() {
 
     @PrimaryKey
     open var id: Long = 0
@@ -17,10 +17,10 @@ open class Category : RealmObject() {
     open var transactions: RealmList<Transaction>? = null
 
     companion object {
-        fun create(realm: Realm): Category {
-            val category = Category()
-            category.id = PrimaryKeyGenerator.getId(Category::class, realm)
-            return realm.copyToRealm(category)
+        fun create(realm: Realm): Tag {
+            val tag = Tag()
+            tag.id = PrimaryKeyGenerator.getId(Tag::class, realm)
+            return realm.copyToRealm(tag)
         }
     }
 

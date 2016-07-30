@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bclymer.dailybudget.wizard.BudgetView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/budgetView"
+<com.bclymer.dailybudget.wizard.StaticExpenseView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/staticExpenseView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -42,4 +42,4 @@
         android:layout_height="wrap_content"
         android:text="Delete" />
 
-</com.bclymer.dailybudget.wizard.BudgetView>
+</com.bclymer.dailybudget.wizard.StaticExpenseView>
