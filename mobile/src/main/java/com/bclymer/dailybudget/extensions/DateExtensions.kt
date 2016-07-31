@@ -8,6 +8,19 @@ import java.util.concurrent.TimeUnit
  * Copyright Travefy, Inc.
  */
 
+fun Date.add(number: Long, unit: TimeUnit): Date {
+    return Date(this.time + unit.toMillis(number))
+}
+
+val Date.atMidnight: Date by lazy {
+    val cal = GregorianCalendar()
+    cal.set(Calendar.HOUR_OF_DAY, 0)
+    cal.set(Calendar.MINUTE, 0)
+    cal.set(Calendar.SECOND, 0)
+    cal.set(Calendar.MILLISECOND, 0)
+    cal.time
+}
+
 fun Date.isSameDay(otherDay: Date): Boolean {
     val day1Cal = GregorianCalendar()
     day1Cal.time = this

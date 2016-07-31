@@ -17,6 +17,12 @@ open class StaticExpense : RealmObject() {
     open var intervalInDays: Int = 0
     open var dailyAllocation: Double = 0.0
 
+    internal fun setExpenses(allocation: Double, intervalInDays: Int) {
+        this.allocation = allocation
+        this.intervalInDays = intervalInDays
+        this.dailyAllocation = (allocation / intervalInDays)
+    }
+
     companion object {
         fun create(realm: Realm): StaticExpense {
             val budget = StaticExpense()

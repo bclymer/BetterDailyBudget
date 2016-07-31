@@ -30,10 +30,31 @@ internal object UserRepository : BaseRepository<User>(User::class) {
         }
     }
 
-    fun totalStaticExpenses(): Observable<Double> =
+    fun verifyBudgetsWithinBounds(): Observable<BudgetVerification> {
+        return totalBudgetAllocationsPerDay()
+                .withLatestFrom(totalStaticExpensesPerDay(), { budgets, expenses ->
+                    budgets to expenses
+                })
+                .withLatestFrom(monitorUser().take(1)) { totalDailyUse, user ->
+                    val (budgets, expenses) = totalDailyUse
+                    val verification = BudgetVerification(
+                            budgets = budgets,
+                            expenses = expenses,
+                            income = user.dailyAllocation
+                    )
+                    if ((budgets + expenses) > user.dailyAllocation) {
+                        verification.valid = false
+                    }
+                    verification
+                }
+    }
+
+    fun totalStaticExpensesPerDay(): Observable<Double> =
             monitorUser().take(1).map { it.staticExpenses.sum("dailyAllocation")?.toDouble() ?: 0.0 }
 
-    fun totalBudgetAllocations(): Observable<Double> =
+    fun totalBudgetAllocationsPerDay(): Observable<Double> =
             monitorUser().take(1).map { it.budgets.sum("dailyAllocation")?.toDouble() ?: 0.0 }
 
 }
+
+data class BudgetVerification(var valid: Boolean = true, val budgets: Double, val expenses: Double, val income: Double)

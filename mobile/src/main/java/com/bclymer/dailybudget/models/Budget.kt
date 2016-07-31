@@ -18,6 +18,7 @@ open class Budget : RealmObject() {
     open var id: Long = 0
     open var name: String = ""
     open var dailyAllocation: Double = 0.0
+    open var funds: Double = 0.0
     open var lastDateApplied: Date = Date()
     open var transactions: RealmList<Transaction> = RealmList()
     open var defaultBudget: Boolean = false

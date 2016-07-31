@@ -10,7 +10,14 @@ open class User : RealmObject() {
 
     open var income: Double = 0.0
     open var payInterval: Int = 0
+    open var dailyAllocation: Double = 0.0
     open var staticExpenses: RealmList<StaticExpense> = RealmList()
     open var budgets: RealmList<Budget> = RealmList()
+
+    internal fun setIncomeStats(income: Double, payInterval: Int) {
+        this.income = income
+        this.payInterval = payInterval
+        this.dailyAllocation = (income / payInterval)
+    }
 
 }

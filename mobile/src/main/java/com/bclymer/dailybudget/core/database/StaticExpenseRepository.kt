@@ -40,7 +40,13 @@ internal object StaticExpenseRepository : BaseRepository<StaticExpense>(StaticEx
                 }
     }
 
-    fun updateStaticExpense(staticExpenseId: Long, name: String? = null, amount: Double? = null, intervalInDays: Int? = null): Observable<Unit> {
+    fun updateStaticExpense(staticExpenseId: Long, name: String) =
+            updateStaticExpense(staticExpenseId, name = name, amount = null, intervalInDays = null)
+
+    fun updateStaticExpense(staticExpenseId: Long, amount: Double, intervalInDays: Int) =
+            updateStaticExpense(staticExpenseId, name = null, amount = amount, intervalInDays = intervalInDays)
+
+    private fun updateStaticExpense(staticExpenseId: Long, name: String? = null, amount: Double? = null, intervalInDays: Int? = null): Observable<Unit> {
         return monitor(staticExpenseId)
                 .take(1)
                 .flatMap { staticExpense ->
@@ -48,10 +54,9 @@ internal object StaticExpenseRepository : BaseRepository<StaticExpense>(StaticEx
                         if (name != null && staticExpense.name != name) {
                             staticExpense.name = name
                         }
-                        if (amount != null && staticExpense.allocation != amount) {
+                        if (amount != null && staticExpense.allocation != amount &&
+                                intervalInDays != null && staticExpense.intervalInDays != intervalInDays) {
                             staticExpense.allocation = amount
-                        }
-                        if (intervalInDays != null && staticExpense.intervalInDays != intervalInDays) {
                             staticExpense.intervalInDays = intervalInDays
                         }
                     }
