@@ -8,6 +8,7 @@ import io.realm.RealmObject
  */
 open class User : RealmObject() {
 
+    open var finishedSetup: Boolean = false
     open var income: Double = 0.0
     open var payInterval: Int = 0
     open var dailyAllocation: Double = 0.0

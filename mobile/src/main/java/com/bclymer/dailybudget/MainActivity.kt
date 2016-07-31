@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.ViewGroup
 import com.bclymer.dailybudget.core.database.BudgetRepository
+import com.bclymer.dailybudget.core.database.UserRepository
 import com.bclymer.dailybudget.extensions.inflate
 import com.bclymer.dailybudget.extensions.observeOnMainThread
 import com.bclymer.dailybudget.extensions.safeSubscribe
@@ -28,12 +29,21 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
+        UserRepository.monitorUser()
+                .take(1)
+                .observeOnMainThread()
+                .safeSubscribe(onNext = {
+                    if (!it.finishedSetup) {
+                        startActivity(Intent(this, WizardActivity::class.java))
+                    }
+                })
+
         recyclerviewBudgets.layoutManager = LinearLayoutManager(this)
         recyclerviewBudgets.adapter = BudgetsAdapter()
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            startActivity(Intent(view.context, WizardActivity::class.java))
+            startActivity(Intent(this, WizardActivity::class.java))
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
         }
     }

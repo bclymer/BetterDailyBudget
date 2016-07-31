@@ -14,9 +14,9 @@ import com.bclymer.dailybudget.models.User
 import com.jakewharton.rxbinding.view.clicks
 import com.jakewharton.rxbinding.widget.textChanges
 import kotlinx.android.synthetic.main.activity_wizard.*
+import kotlinx.android.synthetic.main.static_expense_listitem.view.*
 import kotlinx.android.synthetic.main.wizard_screen_three.*
 import kotlinx.android.synthetic.main.wizard_screen_two.*
-import kotlinx.android.synthetic.main.static_expense_listitem.view.*
 import rx.Observable
 import java.text.NumberFormat
 
@@ -35,7 +35,9 @@ class WizardActivity : AppCompatActivity() {
         )
 
         floatingButtonPageThreeNext.setOnClickListener {
-            finish()
+            UserRepository.finishedSetup().safeSubscribe {
+                finish()
+            }
         }
 
         numberpickerIncomeInterval.minValue = 1

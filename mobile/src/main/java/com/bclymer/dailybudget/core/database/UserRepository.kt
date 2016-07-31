@@ -30,6 +30,17 @@ internal object UserRepository : BaseRepository<User>(User::class) {
         }
     }
 
+    fun finishedSetup(): Observable<Unit> {
+        return monitorUser()
+                .take(1)
+                .flatMap { user ->
+                    executeTransaction {
+                        user.finishedSetup = true
+                    }
+                }
+                .map { }
+    }
+
     fun verifyBudgetsWithinBounds(): Observable<BudgetVerification> {
         return totalBudgetAllocationsPerDay()
                 .withLatestFrom(totalStaticExpensesPerDay(), { budgets, expenses ->

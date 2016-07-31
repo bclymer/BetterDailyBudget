@@ -74,4 +74,4 @@ internal abstract class BaseRepository<T>(private val clazz: KClass<T>) where T 
 
 }
 
-internal class EntityNotFoundException(clazz: KClass<*>, id: Long) : RuntimeException("Couldn't find ${clazz.simpleName} with id $id")
+internal class EntityNotFoundException(clazz: KClass<*>, id: Long) : RuntimeException("Couldn't find ${clazz.java.simpleName} with id $id")
