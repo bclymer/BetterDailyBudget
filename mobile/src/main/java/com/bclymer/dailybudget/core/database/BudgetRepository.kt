@@ -1,6 +1,7 @@
 package com.bclymer.dailybudget.core.database
 
 import com.bclymer.dailybudget.extensions.add
+import com.bclymer.dailybudget.extensions.asVoid
 import com.bclymer.dailybudget.extensions.atMidnight
 import com.bclymer.dailybudget.extensions.daysUntil
 import com.bclymer.dailybudget.models.Budget
@@ -26,7 +27,7 @@ internal object BudgetRepository : BaseRepository<Budget>(Budget::class) {
                     updateAllowance(it)
                 }
                 .toList()
-                .map { }
+                .asVoid()
     }
 
     private fun updateAllowance(budget: Budget): Observable<Unit> {
@@ -40,7 +41,7 @@ internal object BudgetRepository : BaseRepository<Budget>(Budget::class) {
                 newTransaction.systemAllowance = true
                 transactions.add(newTransaction)
             }
-        }.map { }
+        }.asVoid()
     }
 
 }

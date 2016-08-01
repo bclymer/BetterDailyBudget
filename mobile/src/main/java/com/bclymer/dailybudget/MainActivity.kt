@@ -1,6 +1,5 @@
 package com.bclymer.dailybudget
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -11,12 +10,12 @@ import android.support.v7.widget.Toolbar
 import android.view.ViewGroup
 import com.bclymer.dailybudget.core.database.BudgetRepository
 import com.bclymer.dailybudget.core.database.UserRepository
+import com.bclymer.dailybudget.core.presentWizard
 import com.bclymer.dailybudget.extensions.inflate
 import com.bclymer.dailybudget.extensions.observeOnMainThread
 import com.bclymer.dailybudget.extensions.safeSubscribe
 import com.bclymer.dailybudget.extensions.snack
 import com.bclymer.dailybudget.models.Budget
-import com.bclymer.dailybudget.wizard.WizardActivity
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.main_budget_listitem.view.*
 import java.text.NumberFormat
@@ -34,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 .observeOnMainThread()
                 .safeSubscribe(onNext = {
                     if (!it.finishedSetup) {
-                        startActivity(Intent(this, WizardActivity::class.java))
+                        presentWizard()
                     }
                 })
 
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            startActivity(Intent(this, WizardActivity::class.java))
+            presentWizard()
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
         }
     }

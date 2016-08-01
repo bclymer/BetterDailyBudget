@@ -63,30 +63,4 @@ internal object StaticExpenseRepository : BaseRepository<StaticExpense>(StaticEx
                 }
     }
 
-    /*
-    fun updateAllowances(): Observable<Unit> {
-        return monitorAll()
-                .take(1)
-                .flatMap { Observable.from(it) }
-                .flatMap {
-                    updateAllowance(it)
-                }
-                .toList()
-                .map { }
-    }
-
-    private fun updateAllowance(staticExpense: StaticExpense): Observable<Unit> {
-        val daysMissing = staticExpense.lastDateApplied.daysUntil(Date())
-        return executeTransaction {
-            staticExpense.allocation += daysMissing * staticExpense.dailyAllocation
-            val transactions = mutableListOf<Transaction>()
-            for (i in 0..daysMissing) {
-                val newTransaction = Transaction.create(this)
-                newTransaction.systemAllowance = true
-                transactions.add(newTransaction)
-            }
-        }.map { }
-    }
-    */
-
 }

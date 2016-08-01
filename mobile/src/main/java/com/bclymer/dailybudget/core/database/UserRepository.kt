@@ -1,5 +1,6 @@
 package com.bclymer.dailybudget.core.database
 
+import com.bclymer.dailybudget.extensions.asVoid
 import com.bclymer.dailybudget.models.User
 import rx.Observable
 
@@ -33,12 +34,8 @@ internal object UserRepository : BaseRepository<User>(User::class) {
     fun finishedSetup(): Observable<Unit> {
         return monitorUser()
                 .take(1)
-                .flatMap { user ->
-                    executeTransaction {
-                        user.finishedSetup = true
-                    }
-                }
-                .map { }
+                .flatMap { executeTransaction { it.finishedSetup = true } }
+                .asVoid()
     }
 
     fun verifyBudgetsWithinBounds(): Observable<BudgetVerification> {
